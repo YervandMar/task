@@ -1,0 +1,11 @@
+---
+
+- hosts: dockerhost 
+  become: true
+  become_method: su
+  roles:
+    - users_config
+    - install_packages
+    - nginx_config
+    - copy_files 
+    - ssh_config

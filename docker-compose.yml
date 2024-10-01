@@ -1,0 +1,9 @@
+---
+
+services:
+  static_server:
+    build: .
+    ports:
+      - "80:80"
+      - "5555:22"
+    container_name: server

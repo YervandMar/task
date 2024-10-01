@@ -1,0 +1,7 @@
+---
+- name: Copy files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /usr/share/nginx/html/images/
+  with_fileglob:
+    - "files/*"

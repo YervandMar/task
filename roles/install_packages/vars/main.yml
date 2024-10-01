@@ -1,0 +1,6 @@
+---
+packages:
+  - htop
+  - ncdu
+  - git
+  - nano

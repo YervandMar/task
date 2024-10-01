@@ -1,0 +1,7 @@
+---
+# tasks file for zsh_install
+
+- name: Install packages ZSH
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: "present"

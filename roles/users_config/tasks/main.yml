@@ -1,0 +1,44 @@
+---
+- name: Ensure groups are present
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ custom_groups }}"
+
+- name: Manage users
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    shell: "{{ item.shell }}"
+    state: "{{ 'absent' if absent_state == 'true' else item.state }}"
+    password: "{{ item.password }}"
+    groups: "{{ item.groups }}"
+  with_items: "{{ users }}"
+
+- name: Add role zsh installation
+  ansible.builtin.include_role:
+    name: zsh_install
+  when: "item.shell is match('.*zsh$')"
+  with_items: "{{ users }}"
+
+- name: Add .ssh directories
+  ansible.builtin.file:
+    path: "/home/{{ item.name }}/.ssh"
+    state: "directory"
+    mode: '0700'
+    owner: "{{ item.name }}"
+  with_items: "{{ users }}"
+
+- name: update SSH keys
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('pipe','cat {{ playbook_dir}}/roles/{{role_name}}/files/pub_keys/*.pub') }}"
+    state: present
+    exclusive: yes
+  with_items: "{{ users }}"
+
+- name: Ensure correct permissions on .ssh/authorized_keys
+  ansible.builtin.file:
+    path: "/home/{{ item.name }}/.ssh/authorized_keys"
+    mode: '0600'
+    owner: "{{ item.name }}"
+  with_items: "{{ users }}"

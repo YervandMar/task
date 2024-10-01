@@ -1,0 +1,10 @@
+---
+
+- name: Cache update
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install packages
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: "{{ 'absent' if absent_state == 'true' else 'present' }}"

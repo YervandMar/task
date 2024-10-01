@@ -1,0 +1,17 @@
+server {
+    listen 80;
+    location /images {
+        root /usr/share/nginx/html;
+        autoindex on;
+    }
+    gzip on;
+    gzip_types text/plain application/xml;
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
+        expires 1h;
+        add_header Cache-Control "public";
+    }
+}

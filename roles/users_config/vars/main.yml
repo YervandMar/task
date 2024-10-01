@@ -1,0 +1,19 @@
+---
+# vars file for users
+users:
+  - name: "user1"
+    shell: "/usr/bin/zsh"
+    state: "present"
+    password: "$1$SomeSalt$4MYCUCIsZHWnxWxJ/Wl0E/"
+    groups: "sudo,custom_group"
+    update_password: on_create
+
+  - name: "user9"
+    shell: "/usr/bin/bash"
+    state: "present"
+    password: "$1$SomeSalt$4MYCUCIsZHWnxWxJ/Wl0E/"
+    groups: "sudo,custom_group"
+    update_password: on_create
+
+custom_groups:
+  - custom_group
